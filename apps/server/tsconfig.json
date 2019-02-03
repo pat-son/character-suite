@@ -4,7 +4,8 @@
     "types": [
       "node",
       "jest"
-    ]
+    ],
+    "target": "esnext"
   },
   "include": [
     "**/*.ts"

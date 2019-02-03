@@ -6,6 +6,7 @@
   "rules": {
     "semicolon": [true, "always"],
     "indent": [true, "spaces", 4],
+    "no-default-export": true,
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,

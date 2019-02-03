@@ -10,8 +10,3 @@ export class CreateUserDto {
     @ApiModelProperty()
     readonly displayName: string;
 }
-
-export class LoginDto {
-    readonly email: string;
-    readonly password: string;
-}
