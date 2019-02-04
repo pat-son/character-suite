@@ -34,6 +34,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Backend
 
 ng serve server
+
 ng build server
+
 ng test server
+
 ng lint server
