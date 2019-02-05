@@ -6,12 +6,14 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { UserEntity } from './users/user.entity';
+import { SheetsModule } from './sheets/sheets.module';
 
 @Module({
     imports: [
-        AuthModule,
-        UsersModule,
         ConfigModule,
+        UsersModule,
+        AuthModule,
+        SheetsModule,
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             useFactory: (configService: ConfigService) => {
