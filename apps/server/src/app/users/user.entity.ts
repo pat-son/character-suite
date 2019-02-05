@@ -14,9 +14,13 @@ export class UserEntity {
     @Column()
     displayName: string;
 
+    @Column()
+    createdDate: Date;
+
     constructor(email: string, passwordHash: string, displayName: string) {
         this.email = email;
         this.passwordHash = passwordHash;
         this.displayName = displayName;
+        this.createdDate = new Date();
     }
 }
