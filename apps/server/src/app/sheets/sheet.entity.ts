@@ -1,6 +1,5 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
 import { GameEnum } from './sheets.enum';
-import { number } from 'joi';
 
 interface CharacterClass {
     className: string;
