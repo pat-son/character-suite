@@ -43,6 +43,10 @@ export class ConfigService {
         return { username: this.envConfig['MONGO_USERNAME'], password: this.envConfig['MONGO_PASSWORD'] };
     }
 
+    get jwtSecret(): string {
+        return this.envConfig['JWT_SECRET'];
+    }
+
     private validateInput(envConfig: EnvConfig) {
         const envVarsSchema: Joi.ObjectSchema = Joi.object({
             NODE_ENV: Joi.string().valid(['development', 'production', 'test']).required(),
@@ -50,6 +54,7 @@ export class ConfigService {
             MONGO_USERNAME: Joi.string().required(),
             MONGO_PASSWORD: Joi.string().required(),
             VERSION: Joi.string().default('dev'),
+            JWT_SECRET: Joi.string().required(),
         });
 
         const { error, value: validatedEnvConfig } = Joi.validate(envConfig, envVarsSchema);

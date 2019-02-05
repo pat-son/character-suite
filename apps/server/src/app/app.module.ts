@@ -22,6 +22,7 @@ import { UserEntity } from './users/user.entity';
                     database: 'dev',
                     entities: [UserEntity],
                     synchronize: true,
+                    useNewUrlParser: true,
                 };
             },
             inject: [ConfigService]
