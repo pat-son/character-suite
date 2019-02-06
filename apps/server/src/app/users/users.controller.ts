@@ -1,7 +1,7 @@
 import { Controller, Post, Body, OnModuleInit } from "@nestjs/common";
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/user.dto';
-import { ApiUseTags, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiUseTags, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
 import { AuthResponseDto } from '../auth/dto/auth.dto';
 import { AuthService } from '../auth/auth.service';
 import { ModuleRef } from '@nestjs/core';
@@ -23,6 +23,7 @@ export class UsersController implements OnModuleInit {
     }
 
     @Post()
+    @ApiOperation({ title: 'Create user', description: 'Returns an authentication token and the new user.' })
     @ApiCreatedResponse({ type: AuthResponseDto })
     async createUser(@Body() createUserDto: CreateUserDto): Promise<AuthResponseDto> {
         const userEntity = await this.usersService.create(createUserDto);
