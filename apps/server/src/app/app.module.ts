@@ -7,6 +7,7 @@ import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { UserEntity } from './users/user.entity';
 import { SheetsModule } from './sheets/sheets.module';
+import { Pathfinder1stSheetEntity } from './sheets/sheet.entity';
 
 @Module({
     imports: [
@@ -22,7 +23,7 @@ import { SheetsModule } from './sheets/sheets.module';
                     type: 'mongodb',
                     url: `mongodb+srv://${username}:${password}@character-suite-dev-4qj1p.mongodb.net/dev?retryWrites=true`,
                     database: 'dev',
-                    entities: [UserEntity],
+                    entities: [UserEntity, Pathfinder1stSheetEntity],
                     synchronize: true,
                     useNewUrlParser: true,
                 };

@@ -27,7 +27,7 @@ export class UsersController implements OnModuleInit {
     @ApiCreatedResponse({ type: AuthResponseDto })
     async createUser(@Body() createUserDto: CreateUserDto): Promise<AuthResponseDto> {
         const userEntity = await this.usersService.create(createUserDto);
-
+        console.log(userEntity);
         return this.authService.buildAuthResponse(userEntity);
     }
 }

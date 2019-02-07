@@ -11,6 +11,7 @@ async function bootstrap() {
         .setTitle('Character Suite API')
         .setDescription('Not really sure what I\'m doing yet')
         .setVersion(configService.version)
+        .addBearerAuth()
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api', app, document);

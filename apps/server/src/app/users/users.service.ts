@@ -1,10 +1,10 @@
 import { Injectable, BadRequestException } from "@nestjs/common";
-import { User } from 'models/user';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { MongoRepository } from 'typeorm';
 import { CreateUserDto } from './dto/user.dto';
 import { hashSync } from 'bcryptjs';
+import { ObjectID } from 'mongodb';
 
 @Injectable()
 export class UsersService {
@@ -28,7 +28,7 @@ export class UsersService {
         return this.userRepository.findOne({ email });
     }
 
-    async findOneById(id: string): Promise<User> {
-        return this.userRepository.findOne({ id });
+    async findOneById(id: string): Promise<UserEntity> {
+        return this.userRepository.findOne({ "_id": new ObjectID(id) } as any);
     }
 }

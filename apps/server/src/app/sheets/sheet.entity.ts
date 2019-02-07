@@ -1,219 +1,230 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
 import { GameEnum } from './sheets.enum';
+import { ObjectID } from 'mongodb';
 
-interface CharacterClass {
-    className: string;
-    level: number;
-    favored?: boolean;
+class CharacterClass {
+    className = '';
+    level: number = null;
+    favored: boolean = null;
 }
 
-interface Ability {
-    score?: number;
-    temp?: number;
-    misc?: number;
+class Ability {
+    score: number = null;
+    temp: number = null;
+    misc: number = null;
 }
 
-interface Abilities {
-    str: Ability;
-    dex: Ability;
-    con: Ability;
-    int: Ability;
-    wis: Ability;
-    cha: Ability;
+class Abilities {
+    str = new Ability();
+    dex = new Ability();
+    con = new Ability();
+    int = new Ability();
+    wis = new Ability();
+    cha = new Ability();
 }
 
-interface Health {
-    total?: number;
-    current?: number;
-    wounds?: string;
-    nonlethal?: number;
+class Health {
+    total: number = null;
+    current: number = null;
+    wounds = '';
+    nonlethal: number = null;
 }
 
-interface Speed {
-    land?: number;
-    inArmor?: number;
-    fly?: number;
-    flyManeuverability?: string;
-    swim?: number;
-    climb?: number;
-    burrow?: number;
+class Speed {
+    land: number = null;
+    inArmor: number = null;
+    fly: number = null;
+    flyManeuverability = '';
+    swim: number = null;
+    climb: number = null;
+    burrow: number = null;
 }
 
-interface Initiative {
-    misc?: number;
+class Initiative {
+    misc: number = null;
 }
 
-interface AC {
-    armor?: number;
-    shield?: number;
-    size?: number;
-    natural?: number;
-    deflection?: number;
-    dodge?: number;
-    misc?: number;
-    touchMod?: number;
-    flatFootedMod?: number;
+class AC {
+    armor: number = null;
+    shield: number = null;
+    size: number = null;
+    natural: number = null;
+    deflection: number = null;
+    dodge: number = null;
+    misc: number = null;
+    touchMod: number = null;
+    flatFootedMod: number = null;
 }
 
-interface DR {
-    type: string;
-    amount: number;
+class DR {
+    type = '';
+    amount: number = null;
 }
 
-interface ER {
-    type: string;
-    amount?: number;
-    vulnerable?: boolean;
+class ER {
+    type = '';
+    amount: number = null;
+    vulnerable: boolean = null;
 }
 
-interface Save {
-    base?: number;
-    magic?: number;
-    misc?: number;
-    temp?: number;
+class Save {
+    base: number = null;
+    magic: number = null;
+    misc: number = null;
+    temp: number = null;
 }
 
-interface Saves {
-    fortitude: Save;
-    reflex: Save;
-    will: Save;
+class Saves {
+    fortitude = new Save();
+    reflex = new Save();
+    will = new Save();
 }
 
-interface Weapon {
-    name?: string;
-    attackBonus?: number;
-    critical?: string;
-    type?: string;
-    range?: string;
-    usesAmmo?: boolean;
-    ammo?: string;
-    damage?: string;
+class Weapon {
+    name = '';
+    attackBonus: number = null;
+    critical = '';
+    type = '';
+    range = '';
+    usesAmmo: boolean = null;
+    ammo = '';
+    damage = '';
 }
 
-interface Skill {
-    name: string;
-    classSkill: boolean;
-    ability: string;
-    ranks?: number;
-    misc?: number;
-    trainedOnly: boolean;
+class Skill {
+    name = '';
+    classSkill: boolean = null;
+    ability = '';
+    ranks: number = null;
+    misc: number = null;
+    trainedOnly: boolean = null;
 }
 
-interface AcItem {
-    name?: string;
-    bonus?: number;
-    type?: string;
-    checkPenalty?: number;
-    spellFailure?: string;
-    weight?: string;
-    properties: string;
+class AcItem {
+    name = '';
+    bonus: number = null;
+    type = '';
+    checkPenalty: number = null;
+    spellFailure = '';
+    weight = '';
+    properties = '';
 }
 
-interface Gear {
-    name?: string;
-    weight?: string; // TODO: Weight in numbers with an option sheet-wide for units
-    notes?: string;
+class Gear {
+    name = '';
+    weight = ''; // TODO: Weight in numbers with an option sheet-wide for units
+    notes = '';
 }
 
-interface Feat {
-    name?: string;
-    notes?: string;
+class Feat {
+    name = '';
+    notes = '';
 }
 
-interface SpecialAbility {
-    name?: string;
-    notes?: string;
+class SpecialAbility {
+    name = '';
+    notes = '';
 }
 
-interface Money {
-    cp?: number;
-    sp?: number;
-    gp?: number;
-    pp?: number;
+class Money {
+    cp: number = null;
+    sp: number = null;
+    gp: number = null;
+    pp: number = null;
 }
 
-interface XP {
-    total?: number;
-    nextLevel?: number;
+class XP {
+    total: number = null;
+    nextLevel: number = null;
 }
 
-interface SpellsKnown {
-    level: number;
-    known?: number;
-    saveDc?: number;
-    perDay?: number;
-    bonus?: number;
+class SpellsKnown {
+    level: number = null;
+    known: number = null;
+    saveDc: number = null;
+    perDay: number = null;
+    bonus: number = null;
 }
 
-interface Spell {
-    name?: string;
-    notes?: string;
-    prepared?: number;
-    cast?: number;
+class Spell {
+    name = '';
+    notes = '';
+    prepared: number = null;
+    cast: number = null;
 }
 
-interface SpellList {
-    level: number;
-    spells: Spell[];
+class SpellList {
+    level: number = null;
+    spells: Spell[] = [];
 }
 
-export interface Pathfinder1stCharacterData {
-    alignment?: string;
-    classes: CharacterClass[];
-    deity?: string;
-    homeland?: string;
-    race?: string;
-    size?: string;
-    sizeMod?: number;
-    gender?: string;
-    age?: number;
-    weight?: string;
-    hair?: string;
-    eyes?: string;
+class CmbMod {
+    type = '';
+    amount: number = null;
+}
 
-    abilities: Abilities;
-    health: Health;
-    speed: Speed;
-    init: Initiative;
-    ac: AC;
-    dr: DR[];
-    er: ER[];
-    saves: Saves;
-    sr?: number;
+class CmdMod {
+    type = '';
+    amount: number = null;
+}
 
-    bab: number[];
-    cmbMods: {type: string, amount: number}[];
-    cmdMods: {type: string, amount: number}[];
-    weapons: Weapon[];
-    acItems: AcItem[];
+export class Pathfinder1stCharacterData {
+    alignment = '';
+    classes: CharacterClass[] = [];
+    deity = '';
+    homeland = '';
+    race = '';
+    size = '';
+    sizeMod: number = null;
+    gender = '';
+    age: number = null;
+    weight = '';
+    hair = '';
+    eyes = '';
 
-    skills: Skill[];
-    languages: string;
+    abilities = new Abilities();
+    health = new Health();
+    speed = new Speed();
+    init = new Initiative();
+    ac = new AC();
+    dr: DR[] = [];
+    er: ER[] = [];
+    saves = new Saves();
+    sr: number = null;
+
+    bab: number[] = [];
+    cmbMods: CmbMod[] = [];
+    cmdMods: CmdMod[] = [];
+    weapons: Weapon[] = [];
+    acItems: AcItem[] = [];
+
+    skills: Skill[] = [];
+    languages = '';
 
     gear: Gear[];
-    money: Money;
-    lightLoad?: string; // TODO: Weight in numbers with an option sheet-wide for units
-    mediumLoad?: string;
-    heavyLoad?: string;
-    liftOverHead?: string;
-    liftOffGround?: string;
-    dragOrPush?: string;
+    money = new Money();
+    lightLoad = ''; // TODO: Weight in numbers with an option sheet-wide for units
+    mediumLoad = '';
+    heavyLoad = '';
+    liftOverHead = '';
+    liftOffGround = '';
+    dragOrPush = '';
 
-    feats: Feat[];
-    specialAbilities: SpecialAbility[];
+    feats: Feat[] = [];
+    specialAbilities: SpecialAbility[] = [];
 
-    xp: XP;
+    xp = new XP();
 
-    spellsKnown: SpellsKnown[];
-    spellsKnownNotes?: string;
-    domain: string;
-    spellList: SpellList[];
+    spellsKnown: SpellsKnown[] = [];
+    spellsKnownNotes = '';
+    domain = '';
+    spellList: SpellList[] = [];
 }
 
 @Entity({ name: 'sheets' })
 export class SheetEntity {
     @ObjectIdColumn()
-    id: string;
+    id: ObjectID;
 
     @Column()
     createdDate: Date;
@@ -222,7 +233,7 @@ export class SheetEntity {
     updatedDate: Date;
 
     @Column()
-    ownerId: string;
+    ownerId: ObjectID;
 
     @Column()
     gameType: GameEnum;
@@ -232,10 +243,25 @@ export class SheetEntity {
 
     @Column()
     data: any;
+
+    constructor(name: string, ownerId: ObjectID) {
+        this.createdDate = new Date();
+        this.updatedDate = new Date();
+        this.name = name;
+        this.ownerId = ownerId;
+    }
 }
 
 @Entity({ name: 'sheets' })
 export class Pathfinder1stSheetEntity extends SheetEntity {
     @Column()
-    data: Pathfinder1stCharacterData;
+    gameType = GameEnum.Pathfinder1stEdition;
+
+    @Column()
+    data = new Pathfinder1stCharacterData();
+
+    constructor(name: string, ownerId: ObjectID) {
+        super(name, ownerId);
+        this.data = new Pathfinder1stCharacterData();
+    }
 }
