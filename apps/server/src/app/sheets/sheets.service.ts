@@ -5,7 +5,6 @@ import { MongoRepository } from 'typeorm';
 import { CreateSheetDto, SheetDto, UpdateSheetDto } from './sheet.dto';
 import { ObjectID } from 'mongodb';
 import { UsersService } from '../users/users.service';
-import { UserDto } from '../users/dto/user.dto';
 
 @Injectable()
 export class SheetsService {
@@ -31,9 +30,35 @@ export class SheetsService {
         return sheetEntity;
     }
 
-    async updateSheet(sheetEntity: SheetEntity, updateSheetDto: UpdateSheetDto) {
-        //
+    async updateSheet(sheetEntity: SheetEntity, updateSheetDto: UpdateSheetDto): Promise<boolean> {
+        let updated = false;
+        if (updateSheetDto.name !== null && updateSheetDto.name !== undefined) {
+            sheetEntity.name = updateSheetDto.name;
+            updated = true;
+        }
+
+        if (updateSheetDto.data) {
+            sheetEntity.data = updateSheetDto.data;
+            updated = true;
+        }
+
+        if (updated) {
+            sheetEntity.updatedDate = new Date();
+            await this.pathfinder1stSheetRepository.save(sheetEntity);
+        }
+
+        return true;
     }
+
+    // async patchSheet(sheetEntity: SheetEntity, updateSheetDto: UpdateSheetDto) {
+    //     if (updateSheetDto.name !== null && updateSheetDto.name !== undefined) {
+    //         sheetEntity.name = updateSheetDto.name;
+    //     }
+
+    //     if (updateSheetDto.data) {
+    //         // TODO: JSon Patch
+    //     }
+    // }
 
     async sheetEntityToDto(sheetEntity: SheetEntity) {
         const userEntity = await this.usersService.findOneById(sheetEntity.ownerId.toHexString());
