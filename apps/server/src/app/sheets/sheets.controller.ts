@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
 import { User } from '../users/user.decorator';
 import { UserEntity } from '../users/user.entity';
-import { CreateSheetDto, SheetDto, UpdateSheetDto } from './sheet.dto';
+import { CreateSheetDto, SheetDto, UpdateSheetDto, ShortSheetDto } from './sheet.dto';
 import { SheetsService } from './sheets.service';
 
 @Controller('sheets')
@@ -17,6 +17,11 @@ export class SheetsController {
     async getSheet(@Param('id') id: string): Promise<SheetDto> {
         const sheet = await this.sheetsService.findSheetById(id);
         return this.sheetsService.sheetEntityToDto(sheet);
+    }
+
+    @Get('/user/:userId')
+    getSheetsByUser(@Param('userId') id: string): Promise<ShortSheetDto[]> {
+        return this.sheetsService.findSheetsByUserId(id);
     }
 
     @Post()
@@ -38,17 +43,4 @@ export class SheetsController {
 
         return await this.sheetsService.updateSheet(sheetEntity, updateSheetDto);
     }
-
-    // @Patch(':id')
-    // @UseGuards(AuthGuard())
-    // @ApiBearerAuth()
-    // async patchSheet(@Body() updateSheetDto: UpdateSheetDto, @Param('id') id: string, @User() user: UserEntity) {
-    //     const sheetEntity = await this.sheetsService.findSheetById(id);
-    //     if (!sheetEntity.ownerId.equals(user.id)) {
-    //         throw new ForbiddenException('You do not have permission to edit this sheet.');
-    //     }
-
-    //     await this.sheetsService.patchSheet(sheetEntity, updateSheetDto);
-    //     return true;
-    // }
 }

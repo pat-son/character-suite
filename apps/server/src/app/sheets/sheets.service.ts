@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pathfinder1stSheetEntity, SheetEntity } from './sheet.entity';
 import { MongoRepository } from 'typeorm';
-import { CreateSheetDto, SheetDto, UpdateSheetDto } from './sheet.dto';
+import { CreateSheetDto, SheetDto, UpdateSheetDto, ShortSheetDto } from './sheet.dto';
 import { ObjectID } from 'mongodb';
 import { UsersService } from '../users/users.service';
 
@@ -30,6 +30,24 @@ export class SheetsService {
         return sheetEntity;
     }
 
+    async findSheetsByUserId(userId: string): Promise<ShortSheetDto[]> {
+        let sheetEntities = await this.pathfinder1stSheetRepository.find({ 'ownerId': new ObjectID(userId) });
+
+        if (!sheetEntities || sheetEntities.length === 0) {
+            sheetEntities = [];
+        }
+
+        return sheetEntities.map(entity => {
+            return {
+                id: entity.id.toHexString(),
+                createdDate: entity.createdDate,
+                updatedDate: entity.updatedDate,
+                name: entity.name,
+                gameType: entity.gameType,
+            };
+        });
+    }
+
     async updateSheet(sheetEntity: SheetEntity, updateSheetDto: UpdateSheetDto): Promise<boolean> {
         let updated = false;
         if (updateSheetDto.name !== null && updateSheetDto.name !== undefined) {
@@ -50,17 +68,7 @@ export class SheetsService {
         return true;
     }
 
-    // async patchSheet(sheetEntity: SheetEntity, updateSheetDto: UpdateSheetDto) {
-    //     if (updateSheetDto.name !== null && updateSheetDto.name !== undefined) {
-    //         sheetEntity.name = updateSheetDto.name;
-    //     }
-
-    //     if (updateSheetDto.data) {
-    //         // TODO: JSon Patch
-    //     }
-    // }
-
-    async sheetEntityToDto(sheetEntity: SheetEntity) {
+    async sheetEntityToDto(sheetEntity: SheetEntity): Promise<SheetDto> {
         const userEntity = await this.usersService.findOneById(sheetEntity.ownerId.toHexString());
         const userDto = this.usersService.userEntityToDto(userEntity);
 
