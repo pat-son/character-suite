@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards, ForbiddenException, Patch, Put } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards, ForbiddenException, Patch, Put, Delete } from "@nestjs/common";
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
 import { User } from '../users/user.decorator';
@@ -42,5 +42,15 @@ export class SheetsController {
         }
 
         return await this.sheetsService.updateSheet(sheetEntity, updateSheetDto);
+    }
+
+    @Delete(':id')
+    @UseGuards(AuthGuard())
+    @ApiBearerAuth()
+    async deleteSheet(@Param('id') id: string, @User() user: UserEntity) {
+        const sheetEntity = await this.sheetsService.findSheetById(id);
+        if (!sheetEntity.ownerId.equals(user.id)) {
+            throw new ForbiddenException('You do not have permission to edit this sheet.');
+        }
     }
 }

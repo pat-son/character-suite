@@ -68,6 +68,12 @@ export class SheetsService {
         return true;
     }
 
+    async deleteSheetById(id: string): Promise<boolean> {
+        await this.pathfinder1stSheetRepository.delete({ "_id": new ObjectID(id) } as any);
+
+        return true;
+    }
+
     async sheetEntityToDto(sheetEntity: SheetEntity): Promise<SheetDto> {
         const userEntity = await this.usersService.findOneById(sheetEntity.ownerId.toHexString());
         const userDto = this.usersService.userEntityToDto(userEntity);
