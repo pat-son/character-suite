@@ -5,6 +5,7 @@ import { User } from '../users/user.decorator';
 import { UserEntity } from '../users/user.entity';
 import { CreateSheetDto, SheetDto, UpdateSheetDto } from './sheet.dto';
 import { SheetsService } from './sheets.service';
+import { SheetEntity } from './sheet.entity';
 
 @Controller('sheets')
 @ApiUseTags('sheets')
@@ -17,6 +18,11 @@ export class SheetsController {
     async getSheet(@Param('id') id: string): Promise<SheetDto> {
         const sheet = await this.sheetsService.findSheetById(id);
         return this.sheetsService.sheetEntityToDto(sheet);
+    }
+
+    @Get('/user/:id')
+    async getSheetsForUser(@Param('id') id: string) : Promise<SheetEntity[]> {
+        return this.sheetsService.getAllSheetsByUser(id);
     }
 
     @Post()

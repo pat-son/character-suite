@@ -37,3 +37,7 @@ export class UpdateSheetDto {
     @ApiModelProperty({ example: {} })
     data: any;
 }
+
+export class ShortSheetDto {
+    //
+}

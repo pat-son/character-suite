@@ -30,6 +30,10 @@ export class SheetsService {
         return sheetEntity;
     }
 
+    async getAllSheetsByUser(userId: string): Promise<SheetEntity[]> {
+        return this.pathfinder1stSheetRepository.find({ ownerId: new ObjectID(userId) });
+    }
+
     async updateSheet(sheetEntity: SheetEntity, updateSheetDto: UpdateSheetDto): Promise<boolean> {
         let updated = false;
         if (updateSheetDto.name !== null && updateSheetDto.name !== undefined) {
