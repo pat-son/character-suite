@@ -30,6 +30,9 @@ export class SheetDto {
     data: any;
 }
 
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type ShortSheetDto = Omit<SheetDto, 'data' | 'owner'>;
+
 export class UpdateSheetDto {
     @ApiModelProperty({ example: 'Korgun Starwatcher' })
     name: string;

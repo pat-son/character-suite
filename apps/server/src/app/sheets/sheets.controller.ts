@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Param, Post, UseGuards, ForbiddenException, Patch, Put } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards, ForbiddenException, Patch, Put, Delete } from "@nestjs/common";
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
 import { User } from '../users/user.decorator';
 import { UserEntity } from '../users/user.entity';
-import { CreateSheetDto, SheetDto, UpdateSheetDto } from './sheet.dto';
+import { CreateSheetDto, SheetDto, UpdateSheetDto, ShortSheetDto } from './sheet.dto';
 import { SheetsService } from './sheets.service';
 import { SheetEntity } from './sheet.entity';
 
@@ -20,9 +20,9 @@ export class SheetsController {
         return this.sheetsService.sheetEntityToDto(sheet);
     }
 
-    @Get('/user/:id')
-    async getSheetsForUser(@Param('id') id: string) : Promise<SheetEntity[]> {
-        return this.sheetsService.getAllSheetsByUser(id);
+    @Get('/user/:userId')
+    getSheetsByUser(@Param('userId') id: string): Promise<ShortSheetDto[]> {
+        return this.sheetsService.findSheetsByUserId(id);
     }
 
     @Post()
@@ -45,16 +45,13 @@ export class SheetsController {
         return await this.sheetsService.updateSheet(sheetEntity, updateSheetDto);
     }
 
-    // @Patch(':id')
-    // @UseGuards(AuthGuard())
-    // @ApiBearerAuth()
-    // async patchSheet(@Body() updateSheetDto: UpdateSheetDto, @Param('id') id: string, @User() user: UserEntity) {
-    //     const sheetEntity = await this.sheetsService.findSheetById(id);
-    //     if (!sheetEntity.ownerId.equals(user.id)) {
-    //         throw new ForbiddenException('You do not have permission to edit this sheet.');
-    //     }
-
-    //     await this.sheetsService.patchSheet(sheetEntity, updateSheetDto);
-    //     return true;
-    // }
+    @Delete(':id')
+    @UseGuards(AuthGuard())
+    @ApiBearerAuth()
+    async deleteSheet(@Param('id') id: string, @User() user: UserEntity) {
+        const sheetEntity = await this.sheetsService.findSheetById(id);
+        if (!sheetEntity.ownerId.equals(user.id)) {
+            throw new ForbiddenException('You do not have permission to edit this sheet.');
+        }
+    }
 }

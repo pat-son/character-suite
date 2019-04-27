@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pathfinder1stSheetEntity, SheetEntity } from './sheet.entity';
 import { MongoRepository } from 'typeorm';
-import { CreateSheetDto, SheetDto, UpdateSheetDto } from './sheet.dto';
+import { CreateSheetDto, SheetDto, UpdateSheetDto, ShortSheetDto } from './sheet.dto';
 import { ObjectID } from 'mongodb';
 import { UsersService } from '../users/users.service';
 
@@ -30,8 +30,22 @@ export class SheetsService {
         return sheetEntity;
     }
 
-    async getAllSheetsByUser(userId: string): Promise<SheetEntity[]> {
-        return this.pathfinder1stSheetRepository.find({ ownerId: new ObjectID(userId) });
+    async findSheetsByUserId(userId: string): Promise<ShortSheetDto[]> {
+        let sheetEntities = await this.pathfinder1stSheetRepository.find({ 'ownerId': new ObjectID(userId) });
+
+        if (!sheetEntities || sheetEntities.length === 0) {
+            sheetEntities = [];
+        }
+
+        return sheetEntities.map(entity => {
+            return {
+                id: entity.id.toHexString(),
+                createdDate: entity.createdDate,
+                updatedDate: entity.updatedDate,
+                name: entity.name,
+                gameType: entity.gameType,
+            };
+        });
     }
 
     async updateSheet(sheetEntity: SheetEntity, updateSheetDto: UpdateSheetDto): Promise<boolean> {
@@ -54,17 +68,13 @@ export class SheetsService {
         return true;
     }
 
-    // async patchSheet(sheetEntity: SheetEntity, updateSheetDto: UpdateSheetDto) {
-    //     if (updateSheetDto.name !== null && updateSheetDto.name !== undefined) {
-    //         sheetEntity.name = updateSheetDto.name;
-    //     }
+    async deleteSheetById(id: string): Promise<boolean> {
+        await this.pathfinder1stSheetRepository.delete({ "_id": new ObjectID(id) } as any);
 
-    //     if (updateSheetDto.data) {
-    //         // TODO: JSon Patch
-    //     }
-    // }
+        return true;
+    }
 
-    async sheetEntityToDto(sheetEntity: SheetEntity) {
+    async sheetEntityToDto(sheetEntity: SheetEntity): Promise<SheetDto> {
         const userEntity = await this.usersService.findOneById(sheetEntity.ownerId.toHexString());
         const userDto = this.usersService.userEntityToDto(userEntity);
 

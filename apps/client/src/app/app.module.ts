@@ -4,15 +4,22 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NxModule } from '@nrwl/nx';
 import { RouterModule } from '@angular/router';
+import { appRoutes } from './app.routes';
+import { HomeComponent } from './core/components/home/home.component';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    NxModule.forRoot(),
-    RouterModule.forRoot([], { initialNavigation: 'enabled' })
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        NxModule.forRoot(),
+        RouterModule.forRoot(appRoutes, { initialNavigation: 'enabled' }),
+        CoreModule,
+    ],
+    declarations: [
+        AppComponent,
+        HomeComponent
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
