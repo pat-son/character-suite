@@ -1,16 +1,15 @@
 import { Injectable, BadRequestException } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
-import { MongoRepository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto, UserDto } from './dto/user.dto';
 import { hashSync } from 'bcryptjs';
-import { ObjectID } from 'mongodb';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(UserEntity)
-        private readonly userRepository: MongoRepository<UserEntity>,
+        private readonly userRepository: Repository<UserEntity>,
     ) {}
 
     async create(createUserDto: CreateUserDto) {
@@ -24,23 +23,15 @@ export class UsersService {
         return await this.userRepository.save(newUser);
     }
 
-    async findOneByEmail(email: string): Promise<UserEntity> {
+    findOneByEmail(email: string): Promise<UserEntity> { // TODO: don't return passwordHash when sending to user
         return this.userRepository.findOne({ email });
     }
 
-    async findOneById(id: string): Promise<UserEntity> {
-        return this.userRepository.findOne({ "_id": new ObjectID(id) } as any);
+    findOneById(id: string): Promise<UserEntity> {
+        return this.userRepository.findOne({ id });
     }
 
-    userEntityToDto(userEntity: UserEntity): UserDto {
-        if (!userEntity) {
-            return null;
-        }
-
-        return {
-            id: userEntity.id.toHexString(),
-            email: userEntity.email,
-            displayName: userEntity.displayName,
-        };
+    getAllUsers(): Promise<UserEntity[]> {
+        return this.userRepository.find();
     }
 }

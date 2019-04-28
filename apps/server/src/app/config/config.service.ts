@@ -39,8 +39,8 @@ export class ConfigService {
         return this.envConfig['VERSION'];
     }
 
-    get mongoCredentials(): {username: string, password: string} {
-        return { username: this.envConfig['MONGO_USERNAME'], password: this.envConfig['MONGO_PASSWORD'] };
+    get postgresCredentials(): {username: string, password: string} { // TODO: add the host, port, etc. to .env
+        return { username: this.envConfig['POSTGRES_USERNAME'], password: this.envConfig['POSTGRES_PASSWORD'] };
     }
 
     get jwtSecret(): string {
@@ -51,8 +51,8 @@ export class ConfigService {
         const envVarsSchema: Joi.ObjectSchema = Joi.object({
             NODE_ENV: Joi.string().valid(['development', 'production', 'test']).required(),
             PORT: Joi.number().default(3333),
-            MONGO_USERNAME: Joi.string().required(),
-            MONGO_PASSWORD: Joi.string().required(),
+            POSTGRES_USERNAME: Joi.string().required(),
+            POSTGRES_PASSWORD: Joi.string().required(),
             VERSION: Joi.string().default('dev'),
             JWT_SECRET: Joi.string().required(),
         });

@@ -1,27 +1,25 @@
-import { Entity, ObjectIdColumn, Column } from 'typeorm';
-import { ObjectID } from 'mongodb';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
-@Entity({ name: 'users' })
+@Entity({ name: 'site_user' })
 export class UserEntity {
-    @ObjectIdColumn()
-    id: ObjectID;
+    @PrimaryGeneratedColumn('uuid', { name: 'site_user_id' })
+    id: string;
 
     @Column()
     email: string;
 
-    @Column()
+    @Column({ name: 'password_hash' })
     passwordHash: string;
 
-    @Column()
+    @Column({ name: 'display_name' })
     displayName: string;
 
-    @Column()
+    @CreateDateColumn({ name: 'created_date' })
     createdDate: Date;
 
     constructor(email: string, passwordHash: string, displayName: string) {
         this.email = email;
         this.passwordHash = passwordHash;
         this.displayName = displayName;
-        this.createdDate = new Date();
     }
 }

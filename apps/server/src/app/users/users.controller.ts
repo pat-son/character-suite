@@ -1,10 +1,11 @@
-import { Controller, Post, Body, OnModuleInit } from "@nestjs/common";
+import { Controller, Post, Body, OnModuleInit, Get } from "@nestjs/common";
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/user.dto';
 import { ApiUseTags, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
 import { AuthResponseDto } from '../auth/dto/auth.dto';
 import { AuthService } from '../auth/auth.service';
 import { ModuleRef } from '@nestjs/core';
+import { UserEntity } from './user.entity';
 
 @Controller('users')
 @ApiUseTags('users')
@@ -27,7 +28,12 @@ export class UsersController implements OnModuleInit {
     @ApiCreatedResponse({ type: AuthResponseDto })
     async createUser(@Body() createUserDto: CreateUserDto): Promise<AuthResponseDto> {
         const userEntity = await this.usersService.create(createUserDto);
-        console.log(userEntity);
         return this.authService.buildAuthResponse(userEntity);
+    }
+
+    @Get('getAll')
+    @ApiOperation({ title: 'Find all users', description: 'Get all users for admin page' })
+    getAllUsers(): Promise<UserEntity[]> {
+        return this.usersService.getAllUsers();
     }
 }

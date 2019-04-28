@@ -38,7 +38,7 @@ export class SheetsController {
     @ApiBearerAuth()
     async updateSheet(@Body() updateSheetDto: UpdateSheetDto, @Param('id') id: string, @User() user: UserEntity) {
         const sheetEntity = await this.sheetsService.findSheetById(id);
-        if (!sheetEntity.ownerId.equals(user.id)) {
+        if (sheetEntity.ownerId !== user.id) {
             throw new ForbiddenException('You do not have permission to edit this sheet.');
         }
 
@@ -50,7 +50,7 @@ export class SheetsController {
     @ApiBearerAuth()
     async deleteSheet(@Param('id') id: string, @User() user: UserEntity) {
         const sheetEntity = await this.sheetsService.findSheetById(id);
-        if (!sheetEntity.ownerId.equals(user.id)) {
+        if (sheetEntity.ownerId !== user.id) {
             throw new ForbiddenException('You do not have permission to edit this sheet.');
         }
     }

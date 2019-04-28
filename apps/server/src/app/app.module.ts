@@ -18,14 +18,17 @@ import { Pathfinder1stSheetEntity } from './sheets/sheet.entity';
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             useFactory: (configService: ConfigService) => {
-                const { username, password } = configService.mongoCredentials;
+                const { username, password } = configService.postgresCredentials;
                 return {
-                    type: 'mongodb',
-                    url: `mongodb+srv://${username}:${password}@character-suite-dev-4qj1p.mongodb.net/dev?retryWrites=true`,
-                    database: 'dev',
+                    type: 'postgres',
+                    host: 'localhost',
+                    port: 5432,
+                    database: 'character-suite',
+                    schema: 'dbo',
+                    username,
+                    password,
                     entities: [UserEntity, Pathfinder1stSheetEntity],
                     synchronize: true,
-                    useNewUrlParser: true,
                 };
             },
             inject: [ConfigService]

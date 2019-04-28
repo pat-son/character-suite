@@ -1,6 +1,5 @@
-import { Entity, ObjectIdColumn, Column } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { GameEnum } from './sheets.enum';
-import { ObjectID } from 'mongodb';
 
 class CharacterClass {
     className = '';
@@ -223,44 +222,48 @@ export class Pathfinder1stCharacterData {
 
 @Entity({ name: 'sheets' })
 export class SheetEntity {
-    @ObjectIdColumn()
-    id: ObjectID;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-    @Column()
+    @CreateDateColumn()
     createdDate: Date;
 
-    @Column()
+    @UpdateDateColumn()
     updatedDate: Date;
 
     @Column()
-    ownerId: ObjectID;
+    ownerId: string;
 
-    @Column()
+    @Column({
+        type: 'enum',
+        enum: GameEnum
+    })
     gameType: GameEnum;
 
     @Column()
     name: string;
 
-    @Column()
+    @Column({ type: 'hstore' })
     data: any;
 
-    constructor(name: string, ownerId: ObjectID) {
-        this.createdDate = new Date();
-        this.updatedDate = new Date();
+    constructor(name: string, ownerId: string) {
         this.name = name;
         this.ownerId = ownerId;
     }
 }
 
-@Entity({ name: 'sheets' })
+@Entity({ name: 'sheet' })
 export class Pathfinder1stSheetEntity extends SheetEntity {
-    @Column()
+    @Column({
+        type: 'enum',
+        enum: GameEnum
+    })
     gameType = GameEnum.Pathfinder1stEdition;
 
-    @Column()
+    @Column({ type: 'hstore' })
     data = new Pathfinder1stCharacterData();
 
-    constructor(name: string, ownerId: ObjectID) {
+    constructor(name: string, ownerId: string) {
         super(name, ownerId);
         this.data = new Pathfinder1stCharacterData();
     }
