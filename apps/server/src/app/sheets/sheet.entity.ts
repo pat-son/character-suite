@@ -243,7 +243,7 @@ export class SheetEntity {
     @Column()
     name: string;
 
-    @Column({ type: 'hstore' })
+    @Column({ type: 'jsonb' })
     data: any;
 
     constructor(name: string, ownerId: string) {
@@ -260,7 +260,7 @@ export class Pathfinder1stSheetEntity extends SheetEntity {
     })
     gameType = GameEnum.Pathfinder1stEdition;
 
-    @Column({ type: 'hstore' })
+    @Column({ type: 'jsonb' })
     data = new Pathfinder1stCharacterData();
 
     constructor(name: string, ownerId: string) {
