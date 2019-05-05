@@ -1,4 +1,14 @@
-.header {
-    height: 32px;
-    background-color: lightgray;
+@import 'theme-colors';
+
+:host {
+    display: flex;
+    background: $primary-color;
+    height: 40px;
+    padding-left: 20px;
+    align-items: center;
+}
+
+h3 {
+    margin: 0;
+    color: $text-color-light;
 }
