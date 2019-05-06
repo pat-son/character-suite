@@ -2,7 +2,7 @@ import { Injectable, BadRequestException } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserDto, UserDto } from './dto/user.dto';
+import { CreateUserDto } from './dto/user.dto';
 import { hashSync } from 'bcryptjs';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class UsersService {
         return this.userRepository.findOne({ email });
     }
 
-    findOneById(id: string): Promise<UserEntity> {
+    findOneById(id: number): Promise<UserEntity> {
         return this.userRepository.findOne({ id });
     }
 

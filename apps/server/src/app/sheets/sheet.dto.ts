@@ -8,8 +8,8 @@ export class CreateSheetDto {
 }
 
 export class SheetDto {
-    @ApiModelProperty({ example: '5c5bd0ec99964e4888a55806' })
-    id: string;
+    @ApiModelProperty({ example: '123' })
+    id: number;
 
     @ApiModelProperty({ example: "2019-02-07T06:32:12.283Z" })
     createdDate: Date;

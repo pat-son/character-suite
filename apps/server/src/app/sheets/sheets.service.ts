@@ -13,13 +13,13 @@ export class SheetsService {
         private readonly usersService: UsersService,
     ) {}
 
-    async createSheet(createSheetDto: CreateSheetDto, userId: string) {
+    async createSheet(createSheetDto: CreateSheetDto, userId: number) {
         const sheet = new Pathfinder1stSheetEntity(createSheetDto.name, userId);
         const sheetEntity = await this.pathfinder1stSheetRepository.save(sheet);
         return this.sheetEntityToDto(sheetEntity);
     }
 
-    async findSheetById(id: string): Promise<SheetEntity> {
+    async findSheetById(id: number): Promise<SheetEntity> {
         const sheetEntity = await this.pathfinder1stSheetRepository.findOne({ id });
 
         if (!sheetEntity) {
@@ -29,7 +29,7 @@ export class SheetsService {
         return sheetEntity;
     }
 
-    async findSheetsByUserId(userId: string): Promise<ShortSheetDto[]> {
+    async findSheetsByUserId(userId: number): Promise<ShortSheetDto[]> {
         let sheetEntities = await this.pathfinder1stSheetRepository.find({ 'ownerId': userId });
 
         if (!sheetEntities || sheetEntities.length === 0) {
@@ -66,7 +66,7 @@ export class SheetsService {
         return true;
     }
 
-    async deleteSheetById(id: string): Promise<boolean> {
+    async deleteSheetById(id: number): Promise<boolean> {
         await this.pathfinder1stSheetRepository.delete({ id });
 
         return true;
