@@ -18,6 +18,6 @@ export class UserDto {
     @ApiModelProperty({ example: 'Test Account' })
     readonly displayName: string;
 
-    @ApiModelProperty({ example: 'd3ec9f67-7b53-4e8c-be5d-7baf05483da8' })
-    readonly id: string;
+    @ApiModelProperty({ example: '123' })
+    readonly id: number;
 }

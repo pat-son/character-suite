@@ -222,17 +222,17 @@ export class Pathfinder1stCharacterData {
 
 @Entity({ name: 'sheets' })
 export class SheetEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn({ name: 'sheet_id' })
+    id: number;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ name: 'create_timestamp' })
     createdDate: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ name: 'modify_timestamp' })
     updatedDate: Date;
 
-    @Column()
-    ownerId: string;
+    @Column({ name: 'site_user_id' })
+    ownerId: number;
 
     @Column({
         type: 'enum',
@@ -243,10 +243,10 @@ export class SheetEntity {
     @Column()
     name: string;
 
-    @Column({ type: 'jsonb' })
+    @Column({ type: 'jsonb', name: 'value' })
     data: any;
 
-    constructor(name: string, ownerId: string) {
+    constructor(name: string, ownerId: number) {
         this.name = name;
         this.ownerId = ownerId;
     }
@@ -263,7 +263,7 @@ export class Pathfinder1stSheetEntity extends SheetEntity {
     @Column({ type: 'jsonb' })
     data = new Pathfinder1stCharacterData();
 
-    constructor(name: string, ownerId: string) {
+    constructor(name: string, ownerId: number) {
         super(name, ownerId);
         this.data = new Pathfinder1stCharacterData();
     }
