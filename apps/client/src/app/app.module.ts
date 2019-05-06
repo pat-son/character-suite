@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { HomeComponent } from './core/components/home/home.component';
 import { CoreModule } from './core/core.module';
+import { ControlsModule } from './controls/controls.module';
 
 @NgModule({
     imports: [
@@ -14,6 +15,7 @@ import { CoreModule } from './core/core.module';
         NxModule.forRoot(),
         RouterModule.forRoot(appRoutes, { initialNavigation: 'enabled' }),
         CoreModule,
+        ControlsModule,
     ],
     declarations: [
         AppComponent,

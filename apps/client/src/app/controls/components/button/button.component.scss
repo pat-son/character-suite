@@ -1,0 +1,58 @@
+@import 'theme-colors';
+
+:host {
+    font-size: 14px;
+    border: none;
+    background: none;
+    color: $button-primary;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    outline: 0;
+    border-radius: 4px;
+    position: relative;
+}
+
+:host[cs-outline-button] {
+    border: 1px solid $button-primary;
+}
+
+.button-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: inherit;
+    opacity: 0;
+    background: $button-primary;
+    transition: opacity .2s ease-out;
+}
+
+:host[cs-raised-button] {
+    color: $text-color-light;
+    background: $button-primary;
+
+    .button-overlay {
+        background: white;
+    }
+}
+
+:host:hover .button-overlay, :host.cdk-keyboard-focused .button-overlay {
+    opacity: 0.15;
+}
+
+:host:active .button-overlay {
+    opacity: 0.25;
+}
+
+:host[disabled] {
+    cursor: default;
+    pointer-events: none;
+
+    .button-overlay {
+        background-color: black;
+        opacity: 0.25;
+    }
+}
