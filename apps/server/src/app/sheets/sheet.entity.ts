@@ -191,7 +191,7 @@ export class Pathfinder1stCharacterData {
     saves = new Saves();
     sr: number = null;
 
-    bab: number[] = [];
+    bab: number;
     cmbMods: CmbMod[] = [];
     cmdMods: CmdMod[] = [];
     weapons: Weapon[] = [];
