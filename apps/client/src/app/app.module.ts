@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { HomeComponent } from './core/components/home/home.component';
 import { CoreModule } from './core/core.module';
-import { ControlsModule } from './controls/controls.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
     imports: [
@@ -15,11 +15,13 @@ import { ControlsModule } from './controls/controls.module';
         NxModule.forRoot(),
         RouterModule.forRoot(appRoutes, { initialNavigation: 'enabled' }),
         CoreModule,
-        ControlsModule,
+        SharedModule,
     ],
     declarations: [
         AppComponent,
-        HomeComponent
+        HomeComponent,
+    ],
+    entryComponents: [
     ],
     providers: [],
     bootstrap: [AppComponent]
