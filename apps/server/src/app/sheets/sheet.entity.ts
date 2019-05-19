@@ -43,7 +43,7 @@ class Initiative {
     misc: number = null;
 }
 
-class AC {
+class ArmorClass {
     armor: number = null;
     shield: number = null;
     size: number = null;
@@ -55,12 +55,12 @@ class AC {
     flatFootedMod: number = null;
 }
 
-class DR {
+class DamageResistance {
     type = '';
     amount: number = null;
 }
 
-class ER {
+class EnergyResistance {
     type = '';
     amount: number = null;
     vulnerable: boolean = null;
@@ -152,11 +152,13 @@ class Spell {
     cast: number = null;
 }
 
+// Todo: maybe split spell lists up by class if multiclassing?
 class SpellList {
     level: number = null;
     spells: Spell[] = [];
 }
 
+// TODO: Change Cmb and Cmd to something more concrete
 class CmbMod {
     type = '';
     amount: number = null;
@@ -184,14 +186,14 @@ export class Pathfinder1stCharacterData {
     abilities = new Abilities();
     health = new Health();
     speed = new Speed();
-    init = new Initiative();
-    ac = new AC();
-    dr: DR[] = [];
-    er: ER[] = [];
+    initiative = new Initiative();
+    armorClass = new ArmorClass();
+    damageResistance: DamageResistance[] = [];
+    energyResistance: EnergyResistance[] = [];
     saves = new Saves();
-    sr: number = null;
+    spellResistance: number = null;
 
-    bab: number;
+    baseAttackBonus: number;
     cmbMods: CmbMod[] = [];
     cmdMods: CmdMod[] = [];
     weapons: Weapon[] = [];
@@ -216,7 +218,7 @@ export class Pathfinder1stCharacterData {
 
     spellsKnown: SpellsKnown[] = [];
     spellsKnownNotes = '';
-    domain = '';
+    domains: string[] = [];
     spellList: SpellList[] = [];
 }
 
